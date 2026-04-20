@@ -29,4 +29,3 @@ Linux/macOS 系统请执行 `build.sh`。
 ## 致谢
 
 - 特别感谢原项目 [EdenHell/compact_html](https://github.com/EdenHell/compact_html) 提供的基础思路与实现启发。
-- 感谢 `mybatis-generator-gui-go` 项目提供的 CLI 工程结构与跨平台编译脚本参考。
