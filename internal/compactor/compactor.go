@@ -121,7 +121,20 @@ func FetchAndEncodeImage(rawUrl, baseDir string) (string, error) {
 
 		imgPath := decodedUrl
 		if !filepath.IsAbs(imgPath) {
-			imgPath = filepath.Join(baseDir, imgPath)
+			// 先尝试在输入文件所在目录查找
+			primaryPath := filepath.Join(baseDir, imgPath)
+			if _, err := os.Stat(primaryPath); err == nil {
+				imgPath = primaryPath
+			} else {
+				// 如果没找到，尝试在当前工作目录查找
+				if _, err := os.Stat(imgPath); err == nil {
+					// imgPath 本身就是相对路径，相对于 CWD
+					// 这里什么都不做，直接用 imgPath 去读取
+				} else {
+					// 如果都找不到，默认使用 primaryPath 以便报错信息更清晰
+					imgPath = primaryPath
+				}
+			}
 		}
 		
 		imgBytes, err = os.ReadFile(imgPath)
